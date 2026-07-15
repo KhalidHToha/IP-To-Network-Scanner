@@ -1,4 +1,5 @@
 import socket
+import netifaces
 
 
 def get_local_ip() -> str:
@@ -13,3 +14,17 @@ def get_local_ip() -> str:
 
     except OSError:
         return "127.0.0.1"
+
+def get_default_gateway() -> str:
+    """
+    Returns the default gateway IPv4 address.
+    """
+
+    gateways = netifaces.gateways()
+
+    default = gateways.get("default")
+
+    if default and netifaces.AF_INET in default:
+        return default[netifaces.AF_INET][0]
+
+    return "Unknown"
