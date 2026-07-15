@@ -1,6 +1,6 @@
 import socket
 import netifaces
-
+import ipaddress
 
 def get_local_ip() -> str:
     """
@@ -28,3 +28,14 @@ def get_default_gateway() -> str:
         return default[netifaces.AF_INET][0]
 
     return "Unknown"
+
+def get_network() -> str:
+    """
+    Returns the local IPv4 network in CIDR format.
+    """
+
+    local_ip = get_local_ip()
+
+    network = ipaddress.ip_network(f"{local_ip}/24", strict=False)
+
+    return str(network)
