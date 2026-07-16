@@ -10,6 +10,8 @@ from src.system.system import (
     get_python_version,
 )
 
+from src.scanner.hosts import generate_hosts
+from src.scanner.ping import ping_host
 from src.ui.dashboard import show_dashboard
 
 
@@ -25,3 +27,14 @@ class ScannerApp:
         }
 
         show_dashboard(info)
+
+        hosts = generate_hosts(get_network())
+
+        alive = ping_host(hosts[0])
+
+        print(f"\nTesting Host : {hosts[0]}")
+        print(f"Alive        : {alive}")
+
+        print(f"\nTotal Hosts : {len(hosts)}")
+        print(f"First Host  : {hosts[0]}")
+        print(f"Last Host   : {hosts[-1]}")
